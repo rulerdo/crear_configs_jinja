@@ -50,7 +50,7 @@ redundancy
 ! 
 interface Loopback0 
  description "MANAGEMENT"
- ip address {{ IP_MGMT }} 255.255.255.254
+ ip address {{ IP_MGMT }} 255.255.255.255
  no ip proxy-arp 
  ip nat inside 
  no shutdown
@@ -66,7 +66,7 @@ interface GigabitEthernet0/0/0
 interface GigabitEthernet0/1/0 
  description "DATA_LAN"
  ip address {{ IP_DATOS }} 255.255.255.128
- {%- for HELPER in DATA_HELPERS %}
+ {%- for HELPER in DATA_HELPER %}
  ip helper-address {{ HELPER -}}
  {% endfor %}
  no ip proxy-arp 
@@ -77,7 +77,7 @@ interface GigabitEthernet0/1/0
 interface GigabitEthernet0/1/1 
  description "VOICE_LAN"
  ip address {{ IP_VOZ }} 255.255.255.192
- {%- for HELPER in VOZ_HELPERS %}
+ {%- for HELPER in VOZ_HELPER %}
  ip helper-address {{ HELPER -}}
  {% endfor %}
  no ip proxy-arp 
@@ -125,9 +125,9 @@ logging trap debugging
 logging source-interface Loopback0
 !
 {%- if REGION == 'N' %}
-logging host {{ IP_SYSLOG_N -}}
+logging host {{ IP_SYSLOG_N }}
 {%- else %}
-logging host {{ IP_SYSLOG_S -}}
+logging host {{ IP_SYSLOG_S }}
 {% endif %}
 !
 control-plane 
@@ -145,4 +145,4 @@ line vty 0 4
  login authentication no_tacacs 
  transport input ssh 
 ! 
-end 
+end

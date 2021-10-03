@@ -1,3 +1,1 @@
 Jinja
-pandas
-openpyxl
