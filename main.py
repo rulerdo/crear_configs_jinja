@@ -12,7 +12,7 @@ def crear_valores_jinja(line):
         "IP_MGMT" : mgmt_ip,
         "IP_DATOS" : usuarios_ip,
         "DATA_HELPER" : ['172.18.25.1','172.18.26.2','172.18.27.3'],
-        "SUBNET_SITIO" : subnet,
+        "SUBNET_SITIO" : line[4],
         "IP_SYSLOG_N" : '192.168.10.254',
         "IP_SYSLOG_S" : '192.168.33.1'
     }
