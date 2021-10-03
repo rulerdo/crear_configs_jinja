@@ -64,7 +64,7 @@ interface GigabitEthernet0/0/0
  no shutdown 
 ! 
 interface GigabitEthernet0/1/0 
- description "DATA_LAN"
+ description "LAN_USUARIOS"
  ip address {{ IP_DATOS }} 255.255.255.128
  {%- for HELPER in DATA_HELPER %}
  ip helper-address {{ HELPER -}}
@@ -75,15 +75,7 @@ interface GigabitEthernet0/1/0
  no shutdown 
 ! 
 interface GigabitEthernet0/1/1 
- description "VOICE_LAN"
- ip address {{ IP_VOZ }} 255.255.255.192
- {%- for HELPER in VOZ_HELPER %}
- ip helper-address {{ HELPER -}}
- {% endfor %}
- no ip proxy-arp 
- ip nat inside 
- negotiation auto 
- no shutdown 
+ shutdown 
 ! 
 interface GigabitEthernet0/1/2 
  shutdown 
@@ -118,7 +110,6 @@ ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip access-list extended nat_list
  10 permit ip {{ SUBNET_SITIO }} 0.0.0.255 any 
 ! 
-snmp-server location {{ ESTADO }}
 snmp-server contact noc@rulo.com
 !
 logging trap debugging
