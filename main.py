@@ -20,17 +20,12 @@ def crear_valores_jinja(line):
     return valores
 
 
-def crear_jinja_data(plantilla,valores):
+def crear_config_jinja(plantilla,valores):
 
     with open(plantilla,'r') as j:
 
         plantilla_jinja = Template(j.read())
         jinja_data = plantilla_jinja.render(valores)
-
-    return jinja_data
-
-
-def crear_archivo_config(valores,jinja_data):
 
     archivo = valores["HOSTNAME"] + '.txt'
 
@@ -52,9 +47,8 @@ def main():
                 try:
 
                     valores = crear_valores_jinja(line)
-                    jinja_data = crear_jinja_data('docs/plantilla_config.j2',valores)
-                    crear_archivo_config(valores,jinja_data)
-
+                    crear_config_jinja('docs/plantilla_config.j2',valores)
+                    
                 except:
                     print(f'ADVERTENCIA! Problemas en la linea {line}')
 
