@@ -1,20 +1,22 @@
 from jinja2 import Template
 from ipaddress import IPv4Address
 
-def crear_valores_jinja(line):
+def crear_valores_jinja(linea):
 
-    subnet = IPv4Address(line[4])
+    subnet = IPv4Address(linea[4])
     mgmt_ip = subnet + 254
     usuarios_ip = subnet + 1
 
     valores = {
-        "HOSTNAME" : line[0] + line[1] + 'RTR' + line[3],
+
+        "HOSTNAME" : linea[0] + linea[1] + 'RTR' + linea[3],
         "IP_MGMT" : mgmt_ip,
         "IP_DATOS" : usuarios_ip,
         "DATA_HELPER" : ['172.18.25.1','172.18.26.2','172.18.27.3'],
-        "SUBNET_SITIO" : line[4],
+        "SUBRED_SITIO" : linea[4],
+        "REGION" : linea[2],
         "IP_SYSLOG_N" : '192.168.10.254',
-        "IP_SYSLOG_S" : '192.168.33.1'
+        "IP_SYSLOG_S"  : '192.168.33.1',
     }
 
     return valores
@@ -30,30 +32,30 @@ def crear_config_jinja(plantilla,valores):
     archivo = valores["HOSTNAME"] + '.txt'
 
     with open(f'configs/{archivo}','w') as f:
+
         for line in jinja_data:
             f.write(line)
 
 
 def main():
 
-    with open('docs/info_sucursales.csv') as d:
+    with open('docs/info_sucursales.csv','r') as d:
 
         for row in d:
-            clean_row = row.replace('\n', '')
-            line = clean_row.split(',')
-
-            if line[0] != 'PAIS':
+            clean_row = row.replace('\n','')
+            linea = clean_row.split(',')
+            
+            if linea[0] != 'PAIS':
 
                 try:
 
-                    valores = crear_valores_jinja(line)
+                    valores = crear_valores_jinja(linea)
                     crear_config_jinja('docs/plantilla_config.j2',valores)
-                    
+
                 except:
-                    print(f'ADVERTENCIA! Problemas en la linea {line}')
+                    print('ADVERTENCIA: Problemas con la linea: ' , linea)
 
-    print('Trabajo finalizado!')
-
+    print('Trabajo Finalizado!')
 
 if __name__ == '__main__':
     main()

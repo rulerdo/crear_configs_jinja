@@ -108,7 +108,7 @@ ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr 
 ! 
 ip access-list extended nat_list
- 10 permit ip {{ SUBNET_SITIO }} 0.0.0.255 any 
+ 10 permit ip {{ SUBRED_SITIO }} 0.0.0.255 any 
 ! 
 snmp-server contact noc@rulo.com
 !
@@ -116,9 +116,9 @@ logging trap debugging
 logging source-interface Loopback0
 !
 {%- if REGION == 'N' %}
-logging host {{ IP_SYSLOG_N }}
+logging host {{ IP_SYSLOG_N -}}
 {%- else %}
-logging host {{ IP_SYSLOG_S }}
+logging host {{ IP_SYSLOG_S -}}
 {% endif %}
 !
 control-plane 
